@@ -1,25 +1,81 @@
 <!DOCTYPE html>
-<html lang="ja" ng-app>
+<html lang="ja" ng-app="devMetricsCalc">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap + AngularJS template HTML</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap + AngularJS template HTML</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+  <script src="ipa.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Xxx AA</h1>
-        <input type="text" ng-model="yourName" placeholder="Enter your name.">
-        <hr>
-        <h2>Hello {{yourName}}</h2>
-        <div>
-            <p><a href="https://angularjs.org/">https://angularjs.org/</a>
-            <p><a href="http://getbootstrap.com/css/">http://getbootstrap.com/css/</a>
+  <div class="container" ng-controller="DMCCtrl as ctrl">
+    <h1>Development Metrics Culculator</h1>
+    <h3>Conditions</h3>
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Development Type / Lang</label>
+        <div class="col-sm-6">
+          <select class="form-control" ng-model="ctrl.selectedDevType" autofocus>
+            <option ng-repeat="data in whitePaperData" value="{{data.index}}">{{data.index}}:{{data.type}} - {{data.lang}}
+          </select>
         </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Culculation Type</label>
+        <div class="col-sm-6">
+          <div>
+          <label class="radio-inline">
+            <input type="radio" ng-model="ctrl.culcType" name="culcType" value="toSLOC">Production Costs -> SLOC
+          </label>
+          <label class="radio-inline">
+            <input type="radio" ng-model="ctrl.culcType" name="culcType" value="toProductionCosts">SLOC -> Production Costs
+          </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Source</label>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <input type="number" class="form-control" ng-model="ctrl.sourceNum" value="" placeholder="Source">
+            <span class="input-group-addon">man month</span>
+          </div>
+        </div>
+      </div>
+    </form>
+    <hr>
+    <div class="alert alert-success">{{ctrl.calculate()}}</div>
+    <hr>
+    <h3>Reference (from White Paper)</h3>
+    <table class="table table-striped table-bordered table-condensed">
+      <thead>
+      <tr>
+        <th>#
+        <th>Dev Type
+        <th>Lang
+        <th>A
+        <th>B
+        <th>C
+      <tbody>
+      <tr ng-repeat="data in whitePaperData" class="{{ctrl.hilightRow(data)}}">
+        <td>{{data.index}}
+        <td>{{data.type}}
+        <td>{{data.lang}}
+        <td>{{data.a}}
+        <td>{{data.b}}
+        <td>{{data.r}}
+    </table>
+    <hr>
+    <div>
+      <p>Powered by
+      <ul>
+        <li><a href="https://angularjs.org/">https://angularjs.org/</a>
+        <li><a href="http://getbootstrap.com/css/">http://getbootstrap.com/css/</a>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 </html>
