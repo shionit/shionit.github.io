@@ -26,12 +26,12 @@ angular.module('devMetricsCalc', [])
       if (!data || !this.calcType) return "";
 
       var result = 0;
-      if (this.calcType == "toSLOC") {
+      if (this.calcType === "toSLOC") {
         var manMonth = this.sourceNum;
         var manHour = manMonth * 20 * 8;
         result = (Math.pow(manHour, (1 / data.b))) / data.a;
 
-      } else if (this.calcType == "toProductionCosts") {
+      } else if (this.calcType === "toProductionCosts") {
         var manHour = data.a * Math.pow(this.sourceNum, data.b);
         result = manHour / 20 / 8;
 
