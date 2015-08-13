@@ -1,5 +1,8 @@
 angular.module('devMetricsCalc', [])
   .controller('DMCCtrl', function($scope) {
+    var unitManMonth = "man month";
+    var unitSLOC = "SLOC";
+
     $scope.whitePaperData = [
       {index:1, type:"新規開発", lang:"C", a:0.91, b: 0.86, r:0.86},
       {index:2, type:"新規開発", lang:"COBOL", a:0.53, b:0.91, r:0.9},
@@ -13,12 +16,24 @@ angular.module('devMetricsCalc', [])
     this.selectedDevType = "1";
     this.calcType = "toSLOC";
     this.sourceNum = 0;
+    this.sourceUnit = unitManMonth;
+    this.resultUnit = unitSLOC;
 
     this.hilightRow = function(data) {
       if (this.selectedDevType == data.index) {
         return "info";
       }
       return "";
+    };
+
+    this.calcTypeChange = function() {
+      if (this.calcType === "toSLOC") {
+        this.sourceUnit = unitManMonth;
+        this.resultUnit = unitSLOC;
+      } else if (this.calcType === "toProductionCosts") {
+        this.sourceUnit = unitSLOC;
+        this.resultUnit = unitManMonth;
+      }
     };
 
     this.calculate = function() {
